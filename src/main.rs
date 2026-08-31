@@ -1,3 +1,4 @@
+use chrono::Local;
 use std::io;
 
 fn read_input() -> String {
@@ -48,11 +49,11 @@ fn food(food_list: &mut Vec<String>, food_rs: &mut f64) {
 
                         *food_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         food_list.push(format!(
                             "You spent Rs{:.2} on Food on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *food_rs);
@@ -116,11 +117,11 @@ fn utility(utility_list: &mut Vec<String>, utility_rs: &mut f64) {
 
                         *utility_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         utility_list.push(format!(
                             "You spent Rs{:.2} on Utility on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *utility_rs);
@@ -185,11 +186,11 @@ fn transport(transport_list: &mut Vec<String>, transport_rs: &mut f64) {
 
                         *transport_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         transport_list.push(format!(
                             "You spent Rs{:.2} on Transport on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *transport_rs);
@@ -253,11 +254,11 @@ fn shopping(shopping_list: &mut Vec<String>, shopping_rs: &mut f64) {
 
                         *shopping_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         shopping_list.push(format!(
                             "You spent Rs{:.2} on Shopping on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *shopping_rs);
@@ -321,11 +322,11 @@ fn education(education_list: &mut Vec<String>, education_rs: &mut f64) {
 
                         *education_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         education_list.push(format!(
                             "You spent Rs{:.2} on Education on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *education_rs);
@@ -392,11 +393,11 @@ fn entertainment(entertainment_list: &mut Vec<String>,entertainment_rs: &mut f64
 
                         *entertainment_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         entertainment_list.push(format!(
                             "You spent Rs{:.2} on Entertainment on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *entertainment_rs);
@@ -463,11 +464,11 @@ fn bapc(bapc_list: &mut Vec<String>,bapc_rs: &mut f64) {
 
                         *bapc_rs += amount;
 
-                        let date = "Date will be added later";
+                        let time_stamp = Local::now().format("%d-%m-%Y at %I:%M %p").to_string();
 
                         bapc_list.push(format!(
                             "You spent Rs{:.2} on Beauty and Personal Care on {}",
-                            amount, date
+                            amount, time_stamp
                         ));
 
                         println!("New Amount: Rs{:.2}", *bapc_rs);
@@ -836,22 +837,25 @@ fn list_edit(category_name: &str,expense_list: &mut Vec<String>,expense_rs: &mut
             println!("{}. {}", index + 1, expense);
         }
         
-        let length = expense_list.len();
         let x= read_input();
-        let x: usize = x.trim().parse().unwrap();
-        
-        if x == 0 || x > length {
-            println!("Invalid Index");
-        } 
-            else {
-            let expense = &expense_list[x-1];
+        match x.trim().parse::<usize>() {
+            Ok(x) => {
+                if x == 0 || x > expense_list.len() {
+                    println!("Invalid Input")
+                }
+                else {
+                    let expense = &expense_list[x-1];
             let part = expense.split(" ").nth(2).unwrap();
             let part = part.trim_start_matches("Rs");
             let part: f64 = part.trim().parse().unwrap();
-            println!("{}", part);
             *expense_rs -= part;
             expense_list.remove(x - 1);
             println!("Expense removed successfully");
+            println!("New total amount: Rs{}", expense_rs);
+                }
+            } Err(_) => {
+                println!("Invalid Input");
+            }
         }
     }
 }
@@ -949,6 +953,7 @@ fn edit_expense(
 fn search_expense() {
     println!("Search Expense feature will be added next.");
 }
+
 
 fn main() {
 
